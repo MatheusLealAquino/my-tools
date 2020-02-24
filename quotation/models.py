@@ -13,7 +13,7 @@ class Demand(OwnedModel):
   created = models.DateTimeField(auto_now_add=True)
   description = models.TextField(blank=False)
   street_name = models.TextField(blank=False)
-  number_address = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+  number_address = models.DecimalField(default=0, max_digits=10, decimal_places=0)
   city = models.ForeignKey(City, on_delete=models.CASCADE)
   email = models.EmailField(default='')
   cellphone = models.CharField(
@@ -21,7 +21,7 @@ class Demand(OwnedModel):
     blank=False,
     validators=[
       RegexValidator(
-        regex='(\(?\d{2}\)?\s)?(\d{4,5}\-\d{4})'
+        regex='(\(?\d{2}\)?\s)?(\d{4,5}\-?\d{4})'
       )
     ]
   )
