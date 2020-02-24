@@ -19,7 +19,12 @@ from rest_framework import routers
 from quotation import views as views_quotation
 
 router = routers.DefaultRouter()
-router.register(r'demand', views_quotation.DemandViewSet)
+router.register(r'demand', views_quotation.DemandViewSet, basename='demand')
+router.register(r'state', views_quotation.StateViewSet)
+router.register(r'city', views_quotation.CityViewSet)
+router.register(r'group', views_quotation.GroupViewSet)
+router.register(r'user', views_quotation.UserViewSet, basename='user')
+router.register(r'user/group', views_quotation.UserGroupViewSet, basename='user_group')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
