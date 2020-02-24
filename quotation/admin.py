@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from quotation.models import Demand, City, State
 
 class DemandAdmin(admin.ModelAdmin):
-  list_display = ('description', 'street_name', 'number_address', 'city', 'email', 'cellphone', 'is_ended')
+  list_display = ('description', 'street_name', 'number_address', 'city', 'cep', 'email', 'cellphone', 'is_ended')
 
   def is_ended(self, obj):
     if obj.status:
