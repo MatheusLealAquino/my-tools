@@ -4,27 +4,23 @@ from django.contrib.auth.models import User
 class IsAdvertiser(permissions.BasePermission):
   message = "Not authorized"
 
-  def has_permission(self, request, view):
+  def validatePermission(self, request, view, obj=None):
     if not request.user:
       return False
 
-    user = User.objects.get(username=request.user)
-    if user.groups.filter(name='advertiser') or user.groups.filter(name='administrator') or user.is_superuser:
-      return True
-    else:
-      return False
-
-
-  def has_object_permission(self, request, view, obj):
-    if not request.user:
-      return False
-
-    user = User.objects.get(username=request.user)
-    if user.groups.filter(name='advertiser'):
-      return request.user == obj.owner
+    if request.user.groups.filter(name='advertiser'):
+      if obj is None:
+        return True
+      else:
+        return request.user == obj.owner
 
     if request.method in permissions.SAFE_METHODS:
-      if user.groups.filter(name='administrator'):
+      if request.user.groups.filter(name='administrator') or request.user.is_superuser:
         return True
-    else:
-      return False
+    return False
+
+  def has_permission(self, request, view):
+    return self.validatePermission(request, view)
+
+  def has_object_permission(self, request, view, obj):
+    return self.validatePermission(request, view, obj)
