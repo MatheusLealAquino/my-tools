@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 # Permissions
 from mytools.permissions import IsAdvertiser
 from rest_framework.permissions import IsAuthenticated
+# Helpers
+from quotation.helpers.UserGroupHelper import UserGroupHelper
 # Models
 from quotation.models import Demand, City, State
 from django.contrib.auth.models import User, Group
@@ -74,15 +76,9 @@ class UserGroupViewSet(viewsets.ViewSet):
     '''
     if not request.user.is_superuser:
       if 'user_id' in request.data:
-        if request.user.id is not request.data['user_id']:
-          return Response({
-            'message': "Can't assign to that user, with this level of authentication"
-          }, status=status.HTTP_400_BAD_REQUEST)
+        return UserGroupHelper.verifyEqualsIdentifications(request.user.id, request.data['user_id'])
       if 'user_username' in request.data:
-        if request.user.username is not request.data['user_username']:
-          return Response({
-            'message': "Can't assign to that user, with this level of authentication"
-          }, status=status.HTTP_400_BAD_REQUEST)
+        return UserGroupHelper.verifyEqualsIdentifications(request.user.username, request.data['user_username'])
 
     # Verify the variable where contains identification of the group
     if 'group_id' in request.data:
