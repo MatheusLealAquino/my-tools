@@ -68,10 +68,10 @@ class UserGroupViewSet(viewsets.ViewSet):
     API endpoint that allows assign a user to group
   """
   def create(self, request):
-    """
+    '''
       Validade if is possible associate the user with the group.
       Only superuser can add another users beyond them self.
-    """
+    '''
     if not request.user.is_superuser:
       if 'user_id' in request.data:
         if request.user.id is not request.data['user_id']:
@@ -120,6 +120,9 @@ class UserGroupViewSet(viewsets.ViewSet):
         }
       }
 
+      '''
+        If the user is assigned to administrator group, give to him access on Django Admin
+      '''
       if group.name == 'administrator':
         user.is_staff = True
         user.save()
