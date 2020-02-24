@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from mytools.permissions import IsAdvertiser
 from rest_framework.permissions import IsAuthenticated
 # Helpers
-from quotation.helpers.UserGroupHelper import UserGroupHelper
+from quotation.helpers import UserGroupHelper
 # Models
 from quotation.models import Demand, City, State
 from django.contrib.auth.models import User, Group
