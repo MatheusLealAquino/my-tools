@@ -9,6 +9,9 @@ class City(models.Model):
   name = models.CharField(max_length=50, blank=False, unique=True)
   state = models.ForeignKey(State, on_delete=models.CASCADE)
 
+  def __str__(self):
+    return self.name + ' - ' + self.state.name
+
 class Demand(OwnedModel):
   created = models.DateTimeField(auto_now_add=True)
   description = models.TextField(blank=False)
