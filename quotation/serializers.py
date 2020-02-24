@@ -10,7 +10,7 @@ class DemandSerializer(DynamicFieldsModelSerializer):
 
   class Meta:
     model = Demand
-    fields = ['id', 'description', 'street_name', 'number_address', 'city', 'email', 'cellphone', 'status', 'owner_id']
+    fields = ['id', 'description', 'street_name', 'number_address', 'city', 'cep', 'email', 'cellphone', 'status', 'owner_id']
 
 class UserSerializer(serializers.ModelSerializer):
   class Meta:

@@ -18,6 +18,15 @@ class Demand(OwnedModel):
   street_name = models.TextField(blank=False)
   number_address = models.DecimalField(default=0, max_digits=10, decimal_places=0)
   city = models.ForeignKey(City, on_delete=models.CASCADE)
+  cep = models.CharField(
+    max_length=20,
+    blank=False,
+    validators=[
+      RegexValidator(
+        regex='([0-9]{5}-[\d]{3})'
+      )
+    ]
+  )
   email = models.EmailField(default='')
   cellphone = models.CharField(
     max_length=50,
