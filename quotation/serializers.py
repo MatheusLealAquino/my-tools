@@ -4,7 +4,7 @@ from quotation.models import Demand, City, State
 from django.contrib.auth.models import User, Group
 
 class DemandSerializer(DynamicFieldsModelSerializer):
-  owner_id = serializers.HiddenField(
+  owner_id = serializers.IntegerField(
     default=serializers.CurrentUserDefault()
   )
 
