@@ -68,11 +68,21 @@ class UserGroupViewSet(viewsets.ViewSet):
     API endpoint that allows assign a user to group
   """
   def create(self, request):
+    """
+      Validade if is possible associate the user with the group.
+      Only superuser can add another users beyond them self.
+    """
     if not request.user.is_superuser:
-      if request.user.id is not request.data['user_id']:
-        return Response({
-          'message': "Can't assign to that user, with this level of authentication"
-        }, status=status.HTTP_400_BAD_REQUEST)
+      if 'user_id' in request.data:
+        if request.user.id is not request.data['user_id']:
+          return Response({
+            'message': "Can't assign to that user, with this level of authentication"
+          }, status=status.HTTP_400_BAD_REQUEST)
+      if 'user_username' in request.data:
+        if request.user.username is not request.data['user_username']:
+          return Response({
+            'message': "Can't assign to that user, with this level of authentication"
+          }, status=status.HTTP_400_BAD_REQUEST)
 
     # Verify the variable where contains identification of the group
     if 'group_id' in request.data:
@@ -90,7 +100,15 @@ class UserGroupViewSet(viewsets.ViewSet):
           'message': "Not authorized to associate to this group"
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    user = User.objects.get(id=request.data['user_id'])
+    if 'user_id' in request.data:
+      user = User.objects.get(id=request.data['user_id'])
+    elif 'user_username' in request.data:
+      user = User.objects.get(username=request.data['user_username'])
+    else:
+      return Response({
+        'message': "Can't find the user"
+      }, status=status.HTTP_400_BAD_REQUEST)
+
     try:
       user.groups.add(group)
       response = {
@@ -115,4 +133,7 @@ class DemandViewSet(viewsets.ModelViewSet):
   serializer_class = DemandSerializer
   permission_classes = [IsAdvertiser]
   def get_queryset(self):
-    return Demand.objects.filter(owner_id=self.request.user.id)
+    if(self.request.user.groups.filter(name='administrator')):
+      return Demand.objects.all()
+    else:
+      return Demand.objects.filter(owner_id=self.request.user.id)
