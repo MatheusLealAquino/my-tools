@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class IsAdvertiser(permissions.BasePermission):
   message = "Not authorized"
 
-  def validatePermission(self, request, view, obj=None):
+  def validate_permission(self, request, view, obj=None):
     if not request.user:
       return False
 
@@ -20,7 +20,7 @@ class IsAdvertiser(permissions.BasePermission):
     return False
 
   def has_permission(self, request, view):
-    return self.validatePermission(request, view)
+    return self.validate_permission(request, view)
 
   def has_object_permission(self, request, view, obj):
-    return self.validatePermission(request, view, obj)
+    return self.validate_permission(request, view, obj)
