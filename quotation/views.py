@@ -119,6 +119,11 @@ class UserGroupViewSet(viewsets.ViewSet):
           'name': group.name
         }
       }
+
+      if group.name == 'administrator':
+        user.is_staff = True
+        user.save()
+
       return Response(response, status=status.HTTP_201_CREATED)
     except:
       return Response({
