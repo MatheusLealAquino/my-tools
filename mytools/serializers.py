@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
   """
@@ -19,3 +20,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
       existing = set(self.fields)
       for field_name in existing - allowed:
         self.fields.pop(field_name)
+  
+  # Get the current user from request context
+  def validate_owner_id(self, value):
+    return User.objects.get(username=self.context['request'].user).id

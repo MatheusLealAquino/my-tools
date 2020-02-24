@@ -10,4 +10,4 @@ class DemandViewSet(viewsets.ModelViewSet):
   """
   queryset = Demand.objects.all()
   serializer_class = DemandSerializer
-  permission_classes = [IsAdvertiser]
+  permission_classes = [IsAdvertiser,]
