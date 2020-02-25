@@ -5,6 +5,9 @@ from mytools.models import OwnedModel
 class State(models.Model):
   name = models.CharField(max_length=2, blank=False, unique=True)
 
+  def __str__(self):
+    return self.name
+
 class City(models.Model):
   name = models.CharField(max_length=50, blank=False, unique=True)
   state = models.ForeignKey(State, on_delete=models.CASCADE)

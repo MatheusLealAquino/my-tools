@@ -24,7 +24,7 @@ router.register(r'state', views_quotation.StateViewSet)
 router.register(r'city', views_quotation.CityViewSet)
 router.register(r'group', views_quotation.GroupViewSet)
 router.register(r'user', views_quotation.UserViewSet, basename='user')
-router.register(r'user/group', views_quotation.UserGroupViewSet, basename='user_group')
+router.register(r'user/(?P<pk>\d+)/group', views_quotation.UserGroupViewSet, basename='user_group')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

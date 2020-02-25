@@ -51,18 +51,22 @@ class UserGroupViewSet(viewsets.ViewSet):
   """
     API endpoint that allows assign a user to group
   """
-  def create(self, request):
+  def create(self, request, pk=None):
+    if pk is None:
+      return Response({
+        'message': "Can't find the user identification"
+      }, status=status.HTTP_400_BAD_REQUEST)
+
     '''
       Validade if is possible associate the user with the group.
       Only superuser can add another users beyond them self.
     '''
     if not request.user.is_superuser:
-      if 'user_id' in request.data:
-        return UserGroupHelper.verifyEqualsIdentifications(request.user.id, request.data['user_id'])
-      if 'user_username' in request.data:
-        return UserGroupHelper.verifyEqualsIdentifications(request.user.username, request.data['user_username'])
+      return UserGroupHelper.verifyEqualsIdentifications(request.user.id, pk)
 
-    # Verify the variable where contains identification of the group
+    '''
+      Verify the variable where contains identification of the group
+    '''
     if 'group_id' in request.data:
       group = Group.objects.get(id=request.data['group_id'])
     elif 'group_name' in request.data:
@@ -78,13 +82,17 @@ class UserGroupViewSet(viewsets.ViewSet):
           'message': "Not authorized to associate to this group"
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    if 'user_id' in request.data:
-      user = User.objects.get(id=request.data['user_id'])
-    elif 'user_username' in request.data:
-      user = User.objects.get(username=request.data['user_username'])
-    else:
+    user = User.objects.get(id=pk)
+    '''
+      Verify if user is already in one group
+    '''
+    if user.groups.filter(name='administrator') and group.name == 'advertiser':
       return Response({
-        'message': "Can't find the user identification"
+        'message': "Can't associate user to advertiser group, because the user is already on administrator group"
+      }, status=status.HTTP_400_BAD_REQUEST)
+    elif user.groups.filter(name='advertiser') and group.name == 'administrator':
+      return Response({
+        'message': "Can't associate user to administrator group, because the user is already on advertiser group"
       }, status=status.HTTP_400_BAD_REQUEST)
 
     try:
