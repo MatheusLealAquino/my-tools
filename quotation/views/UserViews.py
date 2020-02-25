@@ -3,8 +3,6 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 # Permissions
 from rest_framework.permissions import IsAuthenticated
-# Helpers
-from quotation.helpers import UserGroupHelper
 # Models
 from django.contrib.auth.models import User, Group
 # Serializers
@@ -62,11 +60,12 @@ class UserGroupViewSet(viewsets.ViewSet):
       Only superuser can add another users beyond them self.
     '''
     if not request.user.is_superuser:
-      return UserGroupHelper.verifyEqualsIdentifications(request.user.id, pk)
+      if not str(request.user.id) == str(pk):
+        return Response({
+          'message': "Can't assign to that user, with this level of authentication"
+        }, status=status.HTTP_400_BAD_REQUEST)
 
-    '''
-      Verify the variable where contains identification of the group
-    '''
+    # Verify the variable where contains identification of the group
     if 'group_id' in request.data:
       group = Group.objects.get(id=request.data['group_id'])
     elif 'group_name' in request.data:
@@ -82,10 +81,10 @@ class UserGroupViewSet(viewsets.ViewSet):
           'message': "Not authorized to associate to this group"
         }, status=status.HTTP_400_BAD_REQUEST)
 
+    # Get the user from the pk
     user = User.objects.get(id=pk)
-    '''
-      Verify if user is already in one group
-    '''
+
+    # Verify if user is already in one group
     if user.groups.filter(name='administrator') and group.name == 'advertiser':
       return Response({
         'message': "Can't associate user to advertiser group, because the user is already on administrator group"
@@ -106,9 +105,7 @@ class UserGroupViewSet(viewsets.ViewSet):
         }
       }
 
-      '''
-        If the user is assigned to administrator group, give to him access on Django Admin
-      '''
+      # If the user is assigned to administrator group, give to him access on Django Admin
       if group.name == 'administrator':
         user.is_staff = True
         user.save()

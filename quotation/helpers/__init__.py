@@ -1,1 +1,0 @@
-from quotation.helpers.UserGroupHelper import UserGroupHelper
