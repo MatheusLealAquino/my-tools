@@ -8,5 +8,8 @@ class OwnedModel(models.Model):
     on_delete=models.CASCADE
   )
 
+  def __str__(self):
+    return self.owner.first_name + '  ' + self.owner.last_name
+
   class Meta:
     abstract = True
