@@ -9,7 +9,7 @@ CRUD operations where he created the demand.
 * On the folder 'collections/' contains all routes created on this application.
 
 ### Modeling
-![Modeling of data](Modeling.png)
+![Modeling of data](modeling.png)
 
 ### Tecnology:
 Python 3.8
