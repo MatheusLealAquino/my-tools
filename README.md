@@ -11,10 +11,10 @@ CRUD operations where he created the demand.
 ### Modeling
 ![Modeling of data](modeling.png)
 
-### Tecnology:
-Python 3.8
-Docker
-MySQL 8.0
+### Technologies:
+* Python 3.8
+* Docker
+* MySQL 8.0
 
 ### Frameworks:  
 Django
