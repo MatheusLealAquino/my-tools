@@ -2,15 +2,13 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 # Permissions
-from mytools.permissions import IsAdvertiser
 from rest_framework.permissions import IsAuthenticated
 # Helpers
 from quotation.helpers import UserGroupHelper
 # Models
-from quotation.models import Demand, City, State
 from django.contrib.auth.models import User, Group
 # Serializers
-from quotation.serializers import DemandSerializer, UserSerializer, GroupSerializer, CitySerializer, StateSerializer
+from quotation.serializers import UserSerializer, GroupSerializer
 
 class UserViewSet(viewsets.ViewSet):
   """
@@ -47,22 +45,6 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
   serializer_class = GroupSerializer
   permission_classes = [IsAuthenticated]
 
-class CityViewSet(viewsets.ReadOnlyModelViewSet):
-  """
-    API endpoint that allows cities to be viewed or edited.
-  """
-  queryset = City.objects.all()
-  serializer_class = CitySerializer
-  permission_classes = [IsAuthenticated]
-
-class StateViewSet(viewsets.ReadOnlyModelViewSet):
-  """
-    API endpoint that allows states to be viewed or edited.
-  """
-  queryset = State.objects.all()
-  serializer_class = StateSerializer
-  permission_classes = [IsAuthenticated]
-
 class UserGroupViewSet(viewsets.ViewSet):
   permission_classes = [IsAuthenticated]
 
@@ -87,7 +69,7 @@ class UserGroupViewSet(viewsets.ViewSet):
       group = Group.objects.get(name=request.data['group_name'])
     else:
       return Response({
-        'message': "Can't find group"
+        'message': "Can't find the group identification"
       }, status=status.HTTP_400_BAD_REQUEST)
     
     if group.name == 'administrator':
@@ -102,7 +84,7 @@ class UserGroupViewSet(viewsets.ViewSet):
       user = User.objects.get(username=request.data['user_username'])
     else:
       return Response({
-        'message': "Can't find the user"
+        'message': "Can't find the user identification"
       }, status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -126,18 +108,5 @@ class UserGroupViewSet(viewsets.ViewSet):
       return Response(response, status=status.HTTP_201_CREATED)
     except:
       return Response({
-        'message': "Can't associate user to the group"
+        'message': "Can't associate user to the group (" + group.name + ")"
       }, status=status.HTTP_400_BAD_REQUEST)
-
-class DemandViewSet(viewsets.ModelViewSet):
-  """
-    This viewset automatically provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions.
-  """
-  serializer_class = DemandSerializer
-  permission_classes = [IsAdvertiser]
-  def get_queryset(self):
-    if(self.request.user.groups.filter(name='administrator')):
-      return Demand.objects.all()
-    else:
-      return Demand.objects.filter(owner_id=self.request.user.id)
