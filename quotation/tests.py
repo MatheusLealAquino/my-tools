@@ -148,4 +148,3 @@ class UserGroupViewTestCate(APITestCase):
 
     # Reset credential
     self.client.credentials()
-    
