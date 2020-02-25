@@ -17,8 +17,8 @@ CRUD operations where he created the demand.
 * MySQL 8.0
 
 ### Frameworks:  
-Django
-Django Rest Framework
+* Django
+* Django Rest Framework
 
 ### Execution:  
 * docker-compose build
