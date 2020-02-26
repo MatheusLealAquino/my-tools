@@ -2,17 +2,19 @@ version: '3'
 
 services:
   db:
-    image: mysql:latest
+    image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mytool
+    ports:
+      - "3306:3306"
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
-    ports: 
+    ports:
       - "8000:8000"
     depends_on:
       - db
