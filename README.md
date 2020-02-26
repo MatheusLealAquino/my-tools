@@ -27,7 +27,8 @@ CRUD operations where he created the demand.
 * docker-compose run web ./manage.py loaddata db.json
 
 ### Some useful commands:
-* Create superadmin: docker-compose run web ./manage.py createsuperuser --email admin@example.com --username admin
+* Create superadmin: <br>
+docker-compose run web ./manage.py createsuperuser --email admin@example.com --username admin <br>
 
 ### Run tests:
 * docker-compose run web ./manage.py test
