@@ -1,0 +1,424 @@
+{
+	"info": {
+		"_postman_id": "8a4d1a38-06ea-48ad-93c1-957315d598c8",
+		"name": "MyTools - Administrator",
+		"description": "Application for Federation of Commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User Administrator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69cd087b-2d35-4a7e-b8cc-903eb8ee7693",
+						"exec": [
+							"let jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"user_id\", jsonData.id);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\":\"user_administrator@gmail.com\",\r\n\t\"username\": \"user_administrator\",\r\n\t\"password\": \"supersecret\",\r\n\t\"first_name\": \"Finxi\",\r\n\t\"last_name\": \"User Administrator\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/user/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Login With Superuser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7578b06-c820-430f-8c7e-1ddd91a628e3",
+						"exec": [
+							"let jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"auth_token_adm\", jsonData.auth_token);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"{{username_admin}}\",\r\n\t\"password\": \"{{password_admin}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/auth/token/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"token",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Login With User Administrator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7578b06-c820-430f-8c7e-1ddd91a628e3",
+						"exec": [
+							"let jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"auth_token\", jsonData.auth_token);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"user_administrator\",\r\n\t\"password\": \"supersecret\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/auth/token/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"token",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate user to group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "567618e9-1c1d-498f-b774-9029b50a1e0d",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{auth_token_adm}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"group_name\": \"administrator\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/user/{{user_id}}/group/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"{{user_id}}",
+						"group",
+						""
+					]
+				},
+				"description": "Associate advertiser user to advertiser group"
+			},
+			"response": []
+		},
+		{
+			"name": "Create a demand",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8f86e4e7-f40f-41ef-9402-28be8c446b8f",
+						"exec": [
+							"let jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});",
+							"",
+							"pm.test(\"user can't create a demand\", function () {",
+							"    pm.expect(jsonData.detail).to.equal(\"Not authorized\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"Propulsor a Jato\",\n\t\"street_name\": \"Rua do Carmo\",\n\t\"number_address\": \"71\",\n\t\"city\": \"3\",\n\t\"cep\": \"20011-020\",\n\t\"email\": \"contato@gmail.com\",\n\t\"cellphone\": \"(21) 3553-5474\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/demand/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"demand",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read All Demands",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "188e4583-f401-419b-8ef7-d1ee2b882da9",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Token {{auth_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/demand/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"demand",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{auth_token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f4a47c84-6491-4881-8d2d-fd8384044d26",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3608eb59-eff2-4b91-9c38-5862b395e845",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "2fa46ac2-aa88-4ce3-be75-908fee015bd8",
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "51057e38-4c75-48de-8d1a-7da8bb103eae",
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d884ffd7-947a-40e8-8805-986f76ba76e3",
+			"key": "auth_token_adm",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "1abab008-38f6-49cb-a049-96f541293e85",
+			"key": "username_admin",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"id": "50d9c6e3-192c-4f43-8cd4-245516f024d4",
+			"key": "password_admin",
+			"value": "password123",
+			"type": "string"
+		},
+		{
+			"id": "8b2d8ccf-75a1-4564-840e-ca26d383fb89",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,5 +1,5 @@
 ### Description
-Application where contains two type of user called as Administrator or Advertiser. The adiministrator
+Application where contains two type of user called as Administrator or Advertiser. The administrator
 can read all demands created by the advertisers in Django Admin (127.0.0.1:8000) and the advertiser has 
 a API Rest to create, read, update and delete demands on the system. But the advertiser just can perform
 CRUD operations where he created the demand.
@@ -20,11 +20,18 @@ CRUD operations where he created the demand.
 * Django
 * Django Rest Framework
 
-### Execution:  
+### Execution:
 * docker-compose build
 * docker-compose up
 * docker-compose run web ./manage.py migrate
 * docker-compose run web ./manage.py loaddata db.json
 
+### Some useful commands:
+* Create superadmin: docker-compose run web ./manage.py createsuperuser --email admin@example.com --username admin
+
 ### Run tests:
 * docker-compose run web ./manage.py test
+
+### Run Postman Collection
+* MyTools - Administrator: <br>
+On Variables, add the username and password of the superuser. (Because just superuser can add user to administrator group)<br>
