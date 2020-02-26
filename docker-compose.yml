@@ -7,8 +7,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mytool
-    ports:
-      - "3306:3306"
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
