@@ -23,15 +23,15 @@ CRUD operations where he created the demand.
 ### Execution:
 * docker-compose build
 * docker-compose up
-* docker-compose run web ./manage.py migrate
-* docker-compose run web ./manage.py loaddata db.json
+* docker-compose run web python ./manage.py migrate
+* docker-compose run web python ./manage.py loaddata db.json
 
 ### Some useful commands:
 * Create superadmin: <br>
-docker-compose run web ./manage.py createsuperuser --email admin@example.com --username admin <br>
+docker-compose run web python ./manage.py createsuperuser --email admin@example.com --username admin <br>
 
 ### Run tests:
-* docker-compose run web ./manage.py test
+* docker-compose run web python ./manage.py test
 
 ### Run Postman Collection
 * MyTools - Administrator: <br>
