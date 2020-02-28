@@ -1,6 +1,6 @@
 ### Description
 Application where contains two type of user called as Administrator or Advertiser. The administrator
-can read all demands created by the advertisers in Django Admin (127.0.0.1:8000) and the advertiser has 
+can read all demands created by the advertisers in Django Admin (127.0.0.1:8000/admin) and the advertiser has 
 a API Rest to create, read, update and delete demands on the system. But the advertiser just can perform
 CRUD operations where he created the demand.
 
@@ -23,6 +23,8 @@ CRUD operations where he created the demand.
 ### Execution:
 * docker-compose build
 * docker-compose up
+
+### Execution for the first time: 
 * docker-compose run web python ./manage.py migrate
 * docker-compose run web python ./manage.py loaddata db.json
 
